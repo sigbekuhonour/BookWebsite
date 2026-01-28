@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 
 export function BookCard({imageUrl, price, title, noOfStock }: Book) {
-  const inStockText = noOfStock >= 0 ? "In Stock" : "Out of stock";
+  const inStockText = noOfStock > 0 ? "In Stock" : "Out of stock";
   return (
     <Card className="relative mx-auto shrink-0 w-64 snap-start max-w-sm flex flex-col h-full">
       <img

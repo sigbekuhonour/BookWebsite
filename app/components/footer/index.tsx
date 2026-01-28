@@ -4,7 +4,7 @@ import { FooterInfoTitle } from "./FooterInfoTitle";
 
 export function Footer() {
   return (
-    <div className="flex flex-col bg-[url('/FooterBackground.svg')] bg-cover w-full justify-between px-10 py-10">
+    <div id="Footer" className="flex flex-col bg-[url('/FooterBackground.svg')] bg-cover w-full justify-between px-10 py-10">
       <p className="text-white text-2xl font-semibold ">
         Graceville Books & Christian Resources
       </p>

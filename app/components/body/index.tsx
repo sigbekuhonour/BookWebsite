@@ -11,7 +11,7 @@ export async function Body() {
     supabase.from("Books").select(),
     supabase.from("Testimonials").select(),
   ]);
-  console.log(`List of testimonies ${testimonialsResult.data}`);
+  
   if (booksResult.error) {
     console.error("Error fetching books:", booksResult.error);
   }
