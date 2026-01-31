@@ -4,10 +4,51 @@ import { useState } from 'react'
 import { Book } from '@/app/types/Book'
 import { updateBook, deleteBook, createBook } from '@/app/actions/books'
 import { Button } from '@/components/ui/button'
+import { createClient } from '@/app/utils/supabase/client'
 
 export default function AdminBookList({ books }: { books: Book[] }) {
   const [isCreating, setIsCreating] = useState(false)
+  const [isUploading, setIsUploading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   
+  async function handleCreateBook(formData: FormData) {
+      if (isUploading) return
+      setIsUploading(true)
+      setError(null)
+
+      try {
+        const imageFile = formData.get('imageFile') as File
+        if (!imageFile || imageFile.size === 0) {
+            throw new Error("Please select an image")
+        }
+
+        const supabase = createClient()
+        const fileName = imageFile.name
+        const { error: uploadError, data } = await supabase.storage
+            .from('Books')
+            .upload(fileName, imageFile)
+
+        if (uploadError) {
+            throw new Error("Image upload failed: " + uploadError.message)
+        }
+
+        const { data: { publicUrl } } = supabase.storage
+            .from('Books')
+            .getPublicUrl(fileName)
+
+        
+        formData.set('imageUrl', publicUrl)
+        formData.delete('imageFile') 
+
+        await createBook(formData)
+        setIsCreating(false)
+      } catch (e: any) {
+        setError(e.message)
+      } finally {
+        setIsUploading(false)
+      }
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -20,16 +61,19 @@ export default function AdminBookList({ books }: { books: Book[] }) {
       {isCreating && (
         <div className="p-4 border rounded-lg bg-muted/20 animate-in fade-in slide-in-from-top-2">
             <h3 className="font-semibold mb-3">Add New Book</h3>
-            <form action={async (formData) => {
-                await createBook(formData)
-                setIsCreating(false)
-            }} className="grid gap-4 md:grid-cols-2">
+            {error && <div className="text-red-500 text-sm mb-2">{error}</div>}
+            <form action={handleCreateBook} className="grid gap-4 md:grid-cols-2">
                 <input name="title" placeholder="Book Title" required className="p-2 border rounded" />
                 <input name="price" type="number" step="0.01" placeholder="Price" required className="p-2 border rounded" />
                 <input name="noOfStock" type="number" placeholder="Stock" required className="p-2 border rounded" />
-                <input name="imageUrl" placeholder="Image URL (e.g. /book.png)" required className="p-2 border rounded" />
+                <div className="flex flex-col gap-1">
+                    <label className="text-sm text-muted-foreground">Book Cover Image</label>
+                    <input name="imageFile" type="file" accept="image/*" required className="p-2 border rounded bg-background" />
+                </div>
                 <div className="md:col-span-2">
-                    <Button type="submit" className="w-full">Create Book</Button>
+                    <Button type="submit" className="w-full" disabled={isUploading}>
+                        {isUploading ? "Uploading & Creating..." : "Create Book"}
+                    </Button>
                 </div>
             </form>
         </div>

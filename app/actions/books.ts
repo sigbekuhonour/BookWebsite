@@ -9,8 +9,6 @@ export async function createBook(formData: FormData) {
   const title = formData.get('title') as string
   const price = Number(formData.get('price'))
   const noOfStock = Number(formData.get('noOfStock'))
-  // In a real app, handle image upload to Supabase Storage. 
-  // For now, we accept a URL string.
   const imageUrl = formData.get('imageUrl') as string
 
   const { error } = await supabase.from('Books').insert({
@@ -53,6 +51,14 @@ export async function updateBook(id: string | number, formData: FormData) {
 
 export async function deleteBook(id: string | number) {
   const supabase = await createClient()
+  const { data: book } = await supabase.from('Books').select('imageUrl').eq('id', id).single()
+
+  if (book?.imageUrl) {
+    const fileName = book.imageUrl.split('/').pop()
+    if (fileName) {
+        await supabase.storage.from('Books').remove([fileName])
+    }
+  }
 
   const { error } = await supabase.from('Books').delete().eq('id', id)
 
