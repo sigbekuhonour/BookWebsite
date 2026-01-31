@@ -2,11 +2,14 @@ import HeaderText from "./HeaderText";
 
 export function Header() {
   return (
-    <div id="Header" className="flex w-full h-15 flex-row items-center justify-between p-5 border-0 border-b-2 border-black bg-white dark:bg-black sm:justify-around">
-      <HeaderText headerText="Home" route="/#Header"/>
-      <HeaderText headerText="Contact" route="/#Footer" />
-      <HeaderText headerText="About" route="/about"/>
-      <HeaderText headerText="Shipping & Returns" route="/shipping"/>
+    <div id="Header" className="sticky top-0 z-50 flex w-full h-16 flex-row items-center justify-between px-6 py-4 border-b border-black/5 dark:border-white/10 bg-white/80 dark:bg-black/80 backdrop-blur-md transition-all duration-300 sm:justify-around supports-[backdrop-filter]:bg-white/60">
+      <div className="flex gap-6 md:gap-10">
+        <HeaderText headerText="Home" route="/#Header"/>
+        <HeaderText headerText="Contact" route="/#Footer" />
+        <HeaderText headerText="About" route="/about"/>
+        <HeaderText headerText="Shipping & Returns" route="/shipping"/>
+        <HeaderText headerText="Login" route="/admin/login"/>
+      </div>
     </div>
   );
 }

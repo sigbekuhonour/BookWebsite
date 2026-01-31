@@ -4,7 +4,7 @@ export default function HeaderText({ headerText,route }: { headerText: string ,r
   return (
     <Link
       href={route}
-      className=" text-black dark:text-amber-50 transition-discrete font-medium hover:text-gray-300"
+      className="text-sm md:text-base font-medium text-foreground/80 hover:text-amber-600 dark:hover:text-amber-400 transition-colors duration-200"
     >
       {headerText}
     </Link>

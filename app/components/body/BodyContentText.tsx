@@ -4,6 +4,6 @@ export default function BodyContentText({
   bodyContent: string;
 }) {
   return (
-    <h1 className=" font-medium text-[15px] text-gray-500">{bodyContent}</h1>
+    <p className="text-muted-foreground text-lg leading-relaxed max-w-2xl mb-4">{bodyContent}</p>
   );
 }

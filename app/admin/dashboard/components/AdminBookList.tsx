@@ -1,0 +1,87 @@
+'use client'
+
+import { useState } from 'react'
+import { Book } from '@/app/types/Book'
+import { updateBook, deleteBook, createBook } from '@/app/actions/books'
+import { Button } from '@/components/ui/button'
+
+export default function AdminBookList({ books }: { books: Book[] }) {
+  const [isCreating, setIsCreating] = useState(false)
+  
+  return (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h2 className="text-xl font-bold">Books Library</h2>
+        <Button onClick={() => setIsCreating(!isCreating)} variant={isCreating ? "secondary" : "default"}>
+          {isCreating ? "Cancel" : "Add New Book"}
+        </Button>
+      </div>
+
+      {isCreating && (
+        <div className="p-4 border rounded-lg bg-muted/20 animate-in fade-in slide-in-from-top-2">
+            <h3 className="font-semibold mb-3">Add New Book</h3>
+            <form action={async (formData) => {
+                await createBook(formData)
+                setIsCreating(false)
+            }} className="grid gap-4 md:grid-cols-2">
+                <input name="title" placeholder="Book Title" required className="p-2 border rounded" />
+                <input name="price" type="number" step="0.01" placeholder="Price" required className="p-2 border rounded" />
+                <input name="noOfStock" type="number" placeholder="Stock" required className="p-2 border rounded" />
+                <input name="imageUrl" placeholder="Image URL (e.g. /book.png)" required className="p-2 border rounded" />
+                <div className="md:col-span-2">
+                    <Button type="submit" className="w-full">Create Book</Button>
+                </div>
+            </form>
+        </div>
+      )}
+
+      <div className="grid gap-4">
+        {books.map((book) => (
+          <BookItem key={book.id} book={book} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function BookItem({ book }: { book: Book }) {
+  const [isEditing, setIsEditing] = useState(false)
+
+  if (isEditing) {
+    return (
+      <div className="p-4 border rounded-lg bg-background shadow-sm">
+        <form action={async (formData) => {
+            await updateBook(book.id, formData)
+            setIsEditing(false)
+        }} className="grid gap-4 md:grid-cols-2">
+            <input name="title" defaultValue={book.title} required className="p-2 border rounded" />
+            <input name="price" type="number" step="0.01" defaultValue={book.price} required className="p-2 border rounded" />
+            <input name="noOfStock" type="number" defaultValue={book.noOfStock} required className="p-2 border rounded" />
+            <input name="imageUrl" defaultValue={book.imageUrl} required className="p-2 border rounded" />
+            <div className="md:col-span-2 flex gap-2">
+                <Button type="submit">Save Changes</Button>
+                <Button type="button" variant="ghost" onClick={() => setIsEditing(false)}>Cancel</Button>
+            </div>
+        </form>
+      </div>
+    )
+  }
+
+  return (
+    <div className="flex items-center justify-between p-4 border rounded-lg bg-card hover:bg-muted/10 transition-colors">
+      <div className="flex items-center gap-4">
+        <img src={book.imageUrl} alt={book.title} className="w-12 h-12 object-cover rounded" />
+        <div>
+          <p className="font-semibold">{book.title}</p>
+          <p className="text-sm text-muted-foreground">${book.price} • Stock: {book.noOfStock}</p>
+        </div>
+      </div>
+      <div className="flex gap-2">
+         <Button variant="outline" size="sm" onClick={() => setIsEditing(true)}>Edit</Button>
+         <form action={() => deleteBook(book.id)}>
+            <Button variant="destructive" size="sm" type="submit">Delete</Button>
+         </form>
+      </div>
+    </div>
+  )
+}
