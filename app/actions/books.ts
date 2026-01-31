@@ -28,7 +28,7 @@ export async function createBook(formData: FormData) {
   revalidatePath('/')
 }
 
-export async function updateBook(id: number, formData: FormData) {
+export async function updateBook(id: string | number, formData: FormData) {
   const supabase = await createClient()
 
   const title = formData.get('title') as string
@@ -51,7 +51,7 @@ export async function updateBook(id: number, formData: FormData) {
   revalidatePath('/')
 }
 
-export async function deleteBook(id: number) {
+export async function deleteBook(id: string | number) {
   const supabase = await createClient()
 
   const { error } = await supabase.from('Books').delete().eq('id', id)
