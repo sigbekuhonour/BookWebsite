@@ -1,5 +1,5 @@
 export interface Testimonial {
-  id: string; 
+  id: number; 
   author: string;
   currentWorkplace: string;
   content: string;
