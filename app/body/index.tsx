@@ -2,8 +2,6 @@ import { supabase } from "@/app/utils/supabase/supabase";
 import BodyContentText from "./BodyContentText";
 import BodyTitleText from "./BodyTitleText";
 import BookList from "./books/BookList";
-import TestiominialCard from "./testimonial/TestimonialCard";
-import { Book } from "./../../types/Book";
 import TestimonyList from "./testimonial/TestimonialList";
 
 export async function Body() {
@@ -11,7 +9,7 @@ export async function Body() {
     supabase.from("Books").select(),
     supabase.from("Testimonials").select(),
   ]);
-  
+
   if (booksResult.error) {
     console.error("Error fetching books:", booksResult.error);
   }
@@ -28,7 +26,7 @@ export async function Body() {
           <BodyContentText bodyContent="The ultimate form of self-care for your mind (and your living room).  " />
           <BodyContentText bodyContent="Graceville books and christian resources got you covered. Below you’ll find a list of some of best books available and you can immediately request for an order if you're interested in any." />
         </div>
-        
+
         {booksResult.data && <BookList bookList={booksResult.data} />}
       </section>
 

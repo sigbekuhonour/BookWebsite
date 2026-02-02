@@ -2,7 +2,7 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Book } from "./../../../types/Book";
+import { Book } from "./../../types/Book";
 import {
   Card,
   CardAction,
@@ -11,7 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useCart } from "../../../context/CartContext"; 
+import { useCart } from "./../../context/CartContext"; 
 
 export function BookCard({id, imageUrl, price, title, noOfStock }: Book) {
   const inStockText = noOfStock > 0 ? "In Stock" : "Out of stock";

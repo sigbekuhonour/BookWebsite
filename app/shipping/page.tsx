@@ -1,5 +1,5 @@
-import { Footer } from "../components/footer";
-import { Header } from "../components/header";
+import { Footer } from "./../footer";
+import { Header } from "./../header";
 
 
 export default function Shipping() {
@@ -64,7 +64,7 @@ export default function Shipping() {
         <section className="w-full py-12 bg-amber-50 dark:bg-amber-950/20 flex justify-center text-center">
            <div className="container px-6">
               <p className="text-lg text-foreground">
-                If you have any questions, please contact our team at <a href="tel:7097704862" className="font-bold hover:underline">709-770-4862</a> or email us at <a href="mailto:admin@gracevillebooks.shop" className="font-bold hover:underline text-primary">admin@gracevillebooks.shop</a>
+                If you have any questions, please contact our team at <a href="tel:7097304177" className="font-bold hover:underline">709-730-4177</a> or email us at <a href="mailto:gracevillebooks@gmail.com" className="font-bold hover:underline text-primary">gracevillebooks@gmail.com</a>
               </p>
            </div>
         </section>

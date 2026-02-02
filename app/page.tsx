@@ -1,7 +1,7 @@
-import { Body } from "./components/body";
-import { Footer } from "./components/footer";
-import { Header } from "./components/header";
-import { Intro } from "./components/intro";
+import { Body } from "./body";
+import { Footer } from "./footer";
+import { Header } from "./header";
+import { Intro } from "./intro";
 
 export default function Home() {
   return (
