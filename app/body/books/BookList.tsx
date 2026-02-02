@@ -1,5 +1,5 @@
 import { BookCard } from "./BookCard";
-import { Book } from "./../../../types/Book";
+import { Book } from "./../../types/Book";
 
 export default function BookList({ bookList }: { bookList: Book[] }) {
   return (
