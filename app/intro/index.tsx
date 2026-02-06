@@ -7,10 +7,11 @@ export function Intro() {
           <span className="text-amber-200">&</span> CHRISTIAN RESOURCES
         </h1>
         <p className="text-white/90 text-lg md:text-xl font-medium max-w-lg drop-shadow-md">
-          Providing quality Christian literature and resources for your spiritual growth.
+          Providing quality Christian literature and resources for your
+          spiritual growth.
         </p>
       </div>
-      
+
       <div className="relative animate-in slide-in-from-right-5 fade-in duration-1000 delay-300">
         <img
           src="/HeaderBookBackground.svg"
