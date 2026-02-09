@@ -21,7 +21,7 @@ export async function Body() {
   return (
     <div className="flex flex-col w-full bg-background">
       <section className="w-full py-16 px-6 md:px-16 container mx-auto flex flex-col gap-8">
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 w-full">
           <BodyTitleText bodyTitle="Treat your shelf" />
           <BodyContentText bodyContent="The ultimate form of self-care for your mind (and your living room).  " />
           <BodyContentText bodyContent="Graceville books and christian resources got you covered. Below you’ll find a list of some of best books available and you can immediately request for an order if you're interested in any." />

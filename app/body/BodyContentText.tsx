@@ -4,6 +4,8 @@ export default function BodyContentText({
   bodyContent: string;
 }) {
   return (
-    <p className="text-muted-foreground text-lg leading-relaxed max-w-2xl mb-4">{bodyContent}</p>
+    <p className="text-muted-foreground text-lg leading-relaxed w-full mb-4">
+      {bodyContent}
+    </p>
   );
 }
