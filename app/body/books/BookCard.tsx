@@ -27,6 +27,7 @@ export function BookCard({ id, imageUrl, price, title, noOfStock }: Book) {
           width={500}
           height={500}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
       </div>
       <CardHeader className="grow p-4">
