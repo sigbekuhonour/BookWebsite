@@ -1,6 +1,6 @@
 import { Header } from "../header";
 import { Footer } from "../footer";
-import { Mail, Phone } from "lucide-react";
+import { Mail, MessageCircle, Phone } from "lucide-react";
 import ContactCard from "./ContactCard";
 
 export default function Contact() {
@@ -28,9 +28,9 @@ export default function Contact() {
 
               <div className="grid md:grid-cols-2 gap-8 md:gap-12 max-w-2xl mx-auto">
                 <ContactCard
-                  icon={<Phone className="h-6 w-6" />}
-                  title="Phone"
-                  link="tel:7097304177"
+                  icon={<MessageCircle className="h-6 w-6" />}
+                  title="Call Us or Text Us"
+                  link="sms:7097304177"
                   description="709-730-4177"
                   time="Mon-Fri from 9am to 5pm"
                 />

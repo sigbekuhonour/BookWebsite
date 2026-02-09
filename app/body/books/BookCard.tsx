@@ -12,6 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useCart } from "./../../context/CartContext";
+import Image from "next/image";
 
 export function BookCard({ id, imageUrl, price, title, noOfStock }: Book) {
   const inStockText = noOfStock > 0 ? "In Stock" : "Out of stock";
@@ -20,9 +21,11 @@ export function BookCard({ id, imageUrl, price, title, noOfStock }: Book) {
   return (
     <Card className="relative group w-full max-w-sm flex-col flex h-full overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-border/50 bg-card/50 backdrop-blur-sm">
       <div className="aspect-square w-full overflow-hidden">
-        <img
+        <Image
           src={imageUrl}
           alt={title}
+          width={500}
+          height={500}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
       </div>
