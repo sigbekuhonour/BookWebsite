@@ -48,6 +48,7 @@ export default function BookList({ bookList }: { bookList: Book[] }) {
                 <BookCard
                   id={book.id}
                   title={book.title}
+                  description={book.description}
                   price={book.price}
                   noOfStock={book.noOfStock}
                   imageUrl={book.imageUrl}

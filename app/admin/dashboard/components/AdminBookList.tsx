@@ -11,10 +11,25 @@ export default function AdminBookList({ books }: { books: Book[] }) {
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [typeFilter, setTypeFilter] = useState<
+    "all" | "physical" | "digital" | "physical & digital"
+  >("all");
+  const [stockFilter, setStockFilter] = useState<
+    "all" | "in_stock" | "out_of_stock"
+  >("all");
 
-  const filteredBooks = books.filter((book) =>
-    book.title.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
+  const filteredBooks = books.filter((book) => {
+    const matchesSearch = book.title
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    const matchesType =
+      typeFilter === "all" || (book.productType || "physical") === typeFilter;
+    const matchesStock =
+      stockFilter === "all" ||
+      (stockFilter === "in_stock" && book.noOfStock > 0) ||
+      (stockFilter === "out_of_stock" && book.noOfStock <= 0);
+    return matchesSearch && matchesType && matchesStock;
+  });
 
   async function handleCreateBook(formData: FormData) {
     if (isUploading) return;
@@ -46,7 +61,7 @@ export default function AdminBookList({ books }: { books: Book[] }) {
 
       await createBook(formData);
       setIsCreating(false);
-      setSearchQuery(""); // Clear search on new book creation
+      setSearchQuery(""); 
     } catch (e: any) {
       setError(e.message);
     } finally {
@@ -91,6 +106,40 @@ export default function AdminBookList({ books }: { books: Book[] }) {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
+
+        <div className="flex gap-3">
+          <select
+            value={typeFilter}
+            onChange={(e) =>
+              setTypeFilter(
+                e.target.value as
+                  | "all"
+                  | "physical"
+                  | "digital"
+                  | "physical & digital",
+              )
+            }
+            className="h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+          >
+            <option value="all">All Types</option>
+            <option value="physical">Physical</option>
+            <option value="digital">Digital</option>
+            <option value="physical & digital">Physical & Digital</option>
+          </select>
+          <select
+            value={stockFilter}
+            onChange={(e) =>
+              setStockFilter(
+                e.target.value as "all" | "in_stock" | "out_of_stock",
+              )
+            }
+            className="h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+          >
+            <option value="all">All Inventory</option>
+            <option value="in_stock">In Stock</option>
+            <option value="out_of_stock">Out of Stock</option>
+          </select>
+        </div>
       </div>
 
       {isCreating && (
@@ -131,6 +180,17 @@ export default function AdminBookList({ books }: { books: Book[] }) {
                 className="p-2 border rounded bg-background"
               />
             </div>
+            <select name="productType" className="p-2 border rounded">
+              <option value="physical">Physical</option>
+              <option value="digital">Digital</option>
+              <option value="physical & digital">Physical & Digital</option>
+            </select>
+            <textarea
+              name="description"
+              placeholder="Book description (optional)"
+              rows={3}
+              className="p-2 border rounded md:col-span-2 resize-y"
+            />
             <div className="md:col-span-2">
               <Button type="submit" className="w-full" disabled={isUploading}>
                 {isUploading ? "Uploading & Creating..." : "Create Book"}
@@ -193,6 +253,22 @@ function BookItem({ book }: { book: Book }) {
             required
             className="p-2 border rounded"
           />
+          <select
+            name="productType"
+            defaultValue={book.productType || "physical"}
+            className="p-2 border rounded"
+          >
+            <option value="physical">Physical</option>
+            <option value="digital">Digital</option>
+            <option value="physical & digital">Physical & Digital</option>
+          </select>
+          <textarea
+            name="description"
+            defaultValue={book.description || ""}
+            placeholder="Book description (optional)"
+            rows={3}
+            className="p-2 border rounded md:col-span-2 resize-y"
+          />
           <div className="md:col-span-2 flex gap-2">
             <Button type="submit">Save Changes</Button>
             <Button
@@ -216,11 +292,17 @@ function BookItem({ book }: { book: Book }) {
           alt={book.title}
           className="w-12 h-12 object-cover rounded"
         />
-        <div>
+        <div className="min-w-0">
           <p className="font-semibold">{book.title}</p>
           <p className="text-sm text-muted-foreground">
-            ${book.price} • Stock: {book.noOfStock}
+            ${book.price} • Stock: {book.noOfStock} •{" "}
+            <span className="capitalize">{book.productType || "physical"}</span>
           </p>
+          {book.description && (
+            <p className="text-xs text-muted-foreground/70 mt-1 line-clamp-1">
+              {book.description}
+            </p>
+          )}
         </div>
       </div>
       <div className="flex gap-2">
