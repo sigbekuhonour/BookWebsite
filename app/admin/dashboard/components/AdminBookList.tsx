@@ -61,7 +61,7 @@ export default function AdminBookList({ books }: { books: Book[] }) {
 
       await createBook(formData);
       setIsCreating(false);
-      setSearchQuery(""); 
+      setSearchQuery("");
     } catch (e: any) {
       setError(e.message);
     } finally {
@@ -292,8 +292,8 @@ function BookItem({ book }: { book: Book }) {
           alt={book.title}
           className="w-12 h-12 object-cover rounded"
         />
-        <div className="min-w-0">
-          <p className="font-semibold">{book.title}</p>
+        <div className="min-w-0 pr-6">
+          <p className="font-semibold text-sm text-ellipsis">{book.title}</p>
           <p className="text-sm text-muted-foreground">
             ${book.price} • Stock: {book.noOfStock} •{" "}
             <span className="capitalize">{book.productType || "physical"}</span>

@@ -71,7 +71,7 @@ function TestimonialItem({ testimonial }: { testimonial: Testimonial }) {
                 {testimonial.author.charAt(0)}
              </div>
              <div>
-                <p className="font-semibold">{testimonial.author}</p>
+                <p className="font-semibold text-sm">{testimonial.author}</p>
                 <p className="text-xs text-muted-foreground">{testimonial.currentWorkplace}</p>
              </div>
         </div>
